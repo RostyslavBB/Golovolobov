@@ -6,39 +6,39 @@ using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
-    public GameObject productPrefab;
-    public Transform contentParent;
-    public List<Product> products;
+    [SerializeField] private GameObject productPrefab;
+    [SerializeField] private Transform contentParent;
+    [SerializeField] private List<Product> products;
 
     [Header("Panels")]
-    public GameObject shopPanel;
-    public GameObject editProfilePanel;
+    [SerializeField] private GameObject shopPanel;
+    [SerializeField] private GameObject editProfilePanel;
 
     [Header("Info Panel")]
-    public GameObject infoPanel;
-    public Image infoImage;
-    public TMP_Text infoName;
-    public TMP_Text infoCategory;
-    public TMP_Text infoBrand;
-    public TMP_Text infoPrice;
-    public Button closeButton;
-    public Button addToCartButton;
+    [SerializeField] private GameObject infoPanel;
+    [SerializeField] private Image infoImage;
+    [SerializeField] private TMP_Text infoName;
+    [SerializeField] private TMP_Text infoCategory;
+    [SerializeField] private TMP_Text infoBrand;
+    [SerializeField] private TMP_Text infoPrice;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private Button addToCartButton;
 
     [Header("Cart System")]
-    public CartView cartView;
-    public GameObject cartPanel;
-    public Button openCartButton;
-    public Button closeCartButton;
+    [SerializeField] private CartView cartView;
+    [SerializeField] private GameObject cartPanel;
+    [SerializeField] private Button openCartButton;
+    [SerializeField] private Button closeCartButton;
 
     [Header("Search & Sorting")]
-    public TMP_InputField searchByNameInputField;
-    public TMP_InputField searchByCategoryInputField;
-    public Button searchButton;
-    public TMP_Dropdown sortDropdown;
+    [SerializeField] private TMP_InputField searchByNameInputField;
+    [SerializeField] private TMP_InputField searchByCategoryInputField;
+    [SerializeField] private Button searchButton;
+    [SerializeField] private TMP_Dropdown sortDropdown;
 
     [Header("Profile Management")]
-    public Button editProfileButton;
-    public Button closeEditProfileButton;
+    [SerializeField] private Button editProfileButton;
+    [SerializeField] private Button closeEditProfileButton;
 
     private void Start()
     {
@@ -88,11 +88,11 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private Product currentProduct;
+    private Product _currentProduct;
 
     public void ShowProductInfo(Product product)
     {
-        currentProduct = product;
+        _currentProduct = product;
         infoPanel.SetActive(true);
         infoImage.sprite = product.ProductImage;
         infoName.text = product.Name;
@@ -103,9 +103,9 @@ public class ShopManager : MonoBehaviour
 
     private void AddCurrentProductToCart()
     {
-        if (currentProduct != null)
+        if (_currentProduct != null)
         {
-            cartView.AddProductToCart(currentProduct, 1);
+            cartView.AddProductToCart(_currentProduct, 1);
         }
     }
 

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 public class UserController
 {
-    private List<User> users = new List<User>();
+    private List<User> _users = new List<User>();
 
     public User RegisterUser(string name, string email, string password)
     {
@@ -16,18 +16,18 @@ public class UserController
         if (password.Length < 6)
             throw new ArgumentException("Password must be at least 6 characters long.");
 
-        if (users.Exists(u => u.Email == email))
+        if (_users.Exists(u => u.Email == email))
             throw new ArgumentException("Email is already in use.");
 
         string hashedPassword = HashPassword(password);
         User newUser = new User(name, email, hashedPassword);
-        users.Add(newUser);
+        _users.Add(newUser);
         return newUser;
     }
 
     public bool Login(string email, string password, out User loggedInUser)
     {
-        loggedInUser = users.Find(u => u.Email == email);
+        loggedInUser = _users.Find(u => u.Email == email);
 
         if (loggedInUser != null && loggedInUser.PasswordHash == HashPassword(password))
         {
@@ -54,7 +54,7 @@ public class UserController
     }
     public bool EditProfile(Guid userId, string newName, string newEmail, string newPassword)
     {
-        User user = users.Find(u => u.Id == userId);
+        User user = _users.Find(u => u.Id == userId);
         if (user == null)
             return false;
 

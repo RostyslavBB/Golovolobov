@@ -4,23 +4,23 @@ using UnityEngine.UI;
 
 public class ProductView : MonoBehaviour
 {
-    public Image productImage;
-    public TMP_Text productName;
-    public TMP_Text productPrice;
-    public Button productButton;
+    [SerializeField] private Image productImage;
+    [SerializeField] private TMP_Text productName;
+    [SerializeField] private TMP_Text productPrice;
+    [SerializeField] private Button productButton;
 
-    private Product currentProduct;
-    private ShopManager shopManager;
+    private Product _currentProduct;
+    private ShopManager _shopManager;
 
     public void Setup(Product product, ShopManager manager)
     {
-        currentProduct = product;
-        shopManager = manager;
+        _currentProduct = product;
+        _shopManager = manager;
 
         productName.text = product.Name;
         productPrice.text = $"${product.Price}";
         productImage.sprite = product.ProductImage;
 
-        productButton.onClick.AddListener(() => shopManager.ShowProductInfo(currentProduct));
+        productButton.onClick.AddListener(() => _shopManager.ShowProductInfo(_currentProduct));
     }
 }

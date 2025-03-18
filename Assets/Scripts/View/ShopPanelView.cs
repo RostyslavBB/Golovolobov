@@ -4,21 +4,21 @@ using TMPro;
 
 public class ShopPanelView : MonoBehaviour
 {
-    public GameObject shopPanel;
-    public Image productImage;
-    public TMP_Text productName;
-    public TMP_Text productCategory;
-    public TMP_Text productBrand;
-    public TMP_Text productPrice;
-    public Button addToCartButton;
-    public Button backButton;
+    [SerializeField] private GameObject shopPanel;
+    [SerializeField] private Image productImage;
+    [SerializeField] private TMP_Text productName;
+    [SerializeField] private TMP_Text productCategory;
+    [SerializeField] private TMP_Text productBrand;
+    [SerializeField] private TMP_Text productPrice;
+    [SerializeField] private Button addToCartButton;
+    [SerializeField] private Button backButton;
 
-    private Product currentProduct;
-    private CartController cartController;
+    private Product _currentProduct;
+    private CartController _cartController;
 
     private void Start()
     {
-        cartController = new CartController();
+        _cartController = new CartController();
         shopPanel.SetActive(false);
 
         addToCartButton.onClick.AddListener(AddToCart);
@@ -27,7 +27,7 @@ public class ShopPanelView : MonoBehaviour
 
     public void OpenPanel(Product product)
     {
-        currentProduct = product;
+        _currentProduct = product;
         productName.text = product.Name;
         productCategory.text = "Category: " + product.Category;
         productBrand.text = "Brand: " + product.Brand;
@@ -39,8 +39,8 @@ public class ShopPanelView : MonoBehaviour
 
     private void AddToCart()
     {
-        cartController.AddProductToCart(currentProduct, 1);
-        Debug.Log(currentProduct.Name + " added to cart!");
+        _cartController.AddProductToCart(_currentProduct, 1);
+        Debug.Log(_currentProduct.Name + " added to cart!");
     }
 
     private void ClosePanel()

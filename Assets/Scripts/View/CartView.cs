@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class CartView : MonoBehaviour
 {
-    public Transform cartContentParent;
-    public GameObject cartItemPrefab;
-    public TMP_Text totalPriceText;
-    public Button checkoutButton;
+    [SerializeField] private Transform cartContentParent;
+    [SerializeField] private GameObject cartItemPrefab;
+    [SerializeField] private TMP_Text totalPriceText;
+    [SerializeField] private Button checkoutButton;
 
     [SerializeField] private GameObject cartPanel;
 
     private CartController _cartController;
-    private List<GameObject> spawnedCartItems = new List<GameObject>();
+    private List<GameObject> _spawnedCartItems = new List<GameObject>();
 
     void Start()
     {
@@ -41,11 +41,11 @@ public class CartView : MonoBehaviour
 
     private void UpdateCartUI()
     {
-        foreach (var item in spawnedCartItems)
+        foreach (var item in _spawnedCartItems)
         {
             Destroy(item);
         }
-        spawnedCartItems.Clear();
+        _spawnedCartItems.Clear();
 
         foreach (var item in _cartController.GetCartItems())
         {
@@ -59,7 +59,7 @@ public class CartView : MonoBehaviour
     {
         GameObject cartItem = Instantiate(cartItemPrefab, cartContentParent);
         cartItem.GetComponent<CartItemView>().Setup(product, quantity, this);
-        spawnedCartItems.Add(cartItem);
+        _spawnedCartItems.Add(cartItem);
     }
 
     private void OnCheckoutClicked()

@@ -5,26 +5,26 @@ using System;
 
 public class UserView : MonoBehaviour
 {
-    public TMP_InputField nameInput;
-    public TMP_InputField emailInput;
-    public TMP_InputField passwordInput;
-    public Button registerButton;
-    public Button loginButton;
-    public TextMeshProUGUI feedbackText;
-    public TextMeshProUGUI feedbackText2;
-    public TMP_InputField editNameInput;
-    public TMP_InputField editEmailInput;
-    public TMP_InputField editPasswordInput;
-    public Button editProfileButton;
+    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private TMP_InputField emailInput;
+    [SerializeField] private TMP_InputField passwordInput;
+    [SerializeField] private Button registerButton;
+    [SerializeField] private Button loginButton;
+    [SerializeField] private TextMeshProUGUI feedbackText;
+    [SerializeField] private TextMeshProUGUI feedbackText2;
+    [SerializeField] private TMP_InputField editNameInput;
+    [SerializeField] private TMP_InputField editEmailInput;
+    [SerializeField] private TMP_InputField editPasswordInput;
+    [SerializeField] private Button editProfileButton;
 
-    public TextMeshProUGUI currentNameText;
-    public TextMeshProUGUI currentEmailText;
+    [SerializeField] private TextMeshProUGUI currentNameText;
+    [SerializeField] private TextMeshProUGUI currentEmailText;
 
-    public GameObject signPanel;
-    public GameObject shopPanel;
+    [SerializeField] private GameObject signPanel;
+    [SerializeField] private GameObject shopPanel;
 
-    private UserController userController = new UserController();
-    private User currentUser = null; 
+    private UserController _userController = new UserController();
+    private User _currentUser;
 
     private void Start()
     {
@@ -37,12 +37,12 @@ public class UserView : MonoBehaviour
     {
         try
         {
-            User newUser = userController.RegisterUser(nameInput.text, emailInput.text, passwordInput.text);
+            User newUser = _userController.RegisterUser(nameInput.text, emailInput.text, passwordInput.text);
             if (newUser != null)
             {
                 feedbackText.text = $"User {newUser.Name} registered!";
-                currentUser = newUser;  
-                UpdateUserInfo(currentUser);
+                _currentUser = newUser;
+                UpdateUserInfo(_currentUser);
             }
             else
             {
@@ -57,15 +57,15 @@ public class UserView : MonoBehaviour
 
     private void OnLoginClicked()
     {
-        if (userController.Login(emailInput.text, passwordInput.text, out User loggedInUser))
+        if (_userController.Login(emailInput.text, passwordInput.text, out User loggedInUser))
         {
-            currentUser = loggedInUser;
-            feedbackText.text = $"Welcome, {currentUser.Name}!";
+            _currentUser = loggedInUser;
+            feedbackText.text = $"Welcome, {_currentUser.Name}!";
 
             signPanel.SetActive(false);
             shopPanel.SetActive(true);
 
-            UpdateUserInfo(currentUser);
+            UpdateUserInfo(_currentUser);
         }
         else
         {
@@ -75,7 +75,7 @@ public class UserView : MonoBehaviour
 
     private void OnEditProfileClicked()
     {
-        if (currentUser == null)
+        if (_currentUser == null)
         {
             feedbackText2.text = "You need to be logged in to edit your profile.";
             return;
@@ -83,8 +83,8 @@ public class UserView : MonoBehaviour
 
         try
         {
-            bool success = userController.EditProfile(
-                currentUser.Id,
+            bool success = _userController.EditProfile(
+                _currentUser.Id,
                 editNameInput.text,
                 editEmailInput.text,
                 editPasswordInput.text
@@ -94,10 +94,10 @@ public class UserView : MonoBehaviour
             {
                 feedbackText2.text = "Profile updated successfully!";
 
-                currentUser.Name = string.IsNullOrEmpty(editNameInput.text) ? currentUser.Name : editNameInput.text;
-                currentUser.Email = string.IsNullOrEmpty(editEmailInput.text) ? currentUser.Email : editEmailInput.text;
+                _currentUser.Name = string.IsNullOrEmpty(editNameInput.text) ? _currentUser.Name : editNameInput.text;
+                _currentUser.Email = string.IsNullOrEmpty(editEmailInput.text) ? _currentUser.Email : editEmailInput.text;
 
-                UpdateUserInfo(currentUser);
+                UpdateUserInfo(_currentUser);
             }
             else
             {
